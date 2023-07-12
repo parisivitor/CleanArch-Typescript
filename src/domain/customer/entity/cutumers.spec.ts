@@ -6,20 +6,20 @@ describe("Custumer unit test", () => {
     it("should trow error when id is empty", () => {
         expect(() => {
             let custumer = new Custumer("", "Vitor");
-        }).toThrowError('ID is requided!');
+        }).toThrowError("customer: Id is required");
     })
 
     it("should trow error when name is empty", () => {
         expect(() => {
             let custumer = new Custumer("1", "");
-        }).toThrowError('Name is requided!');
+        }).toThrowError('customer: Name is required,customer: Name isn`t lower than 4');
     })
 
     it("should trow error when change name with name empty", () => {
         expect(() => {
             const custumer = new Custumer("1", "vitor");
             custumer.changeName("");
-        }).toThrowError('Name is requided!');
+        }).toThrowError('customer: Name is required,customer: Name isn`t lower than 4');
     })
 
     it("should change name", () => { //triple A

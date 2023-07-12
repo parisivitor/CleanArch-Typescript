@@ -10,6 +10,9 @@
  *  um entidade por padrão ela SEMPRE vai ser auto validar!
  */
 
+import Entity from "../../@shared/entity/entity.abstract";
+import NotificationError from "../../@shared/notification/notification.error";
+import CustomerValidaorFactory from "../factory/customer.validaor.factory";
 import Address from "../value-object/address";
 
 /**
@@ -25,29 +28,34 @@ import Address from "../value-object/address";
  *      |-custumer.ts (get,set,ORM)
  */
 
-export default class Custumer {
-    private _id: string;
+export default class Custumer extends Entity{
     private _name: string;
     private _address!: Address; //pode não ser obrigatorio no construtor. (! mostra q não é obrigatorio)
     private _active: boolean = false;
     private _rewardPoints: number = 0;
 
     constructor(id: string, name:string, address?: Address){
+        super();
         this._id = id;
         this._name = name;
         this._address = address;
         this.validate();
+
+        // if(this.notification.hasError()) {
+        //     throw new NotificationError(this.notification.getErrors());
+        // }
     }
 
     validate() {
-        if (this._id.length === 0) {
-            throw new Error("ID is requided!")
-        }
-        if (this._name.length === 0) {
-            throw new Error("Name is requided!")
-        }
+        CustomerValidaorFactory.create().validate(this);
         if (this._name.length < 3) {
-            throw new Error("Name isn`t lower than 4")
+            this.notification.addError({
+                context: "customer",
+                message: "Name isn`t lower than 4"
+            })
+        }
+        if(this.notification.hasError()) {
+            throw new NotificationError(this.notification.getErrors());
         }
     }
 
@@ -62,10 +70,6 @@ export default class Custumer {
     changeAddress(address: Address){
         this._address = address;
         this.validate()
-    }
-
-    get id(): string {
-        return this._id
     }
 
     get name(): string {

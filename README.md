@@ -20,3 +20,14 @@ rodar todos os test: ```npm test```
 
 ------------------------------------
 instalar uuid: ```npm i uuid @types/uuid```
+
+
+-----------------------------------
+instalar express e .env ```npm i express @types/express dotenv```
+instalar nodemon ```npm i nodemon```
+instalar supertest para test e2e ```npm i -D supertest @types/supertest```
+instalar yup para validator ```npm i yup```
+--------------------------------------------
+
+install jsontoxml para mexer com os presenters ```npm i jstoxml```
+install jsontoxml types -d ```npm i -D @types/jstoxml```

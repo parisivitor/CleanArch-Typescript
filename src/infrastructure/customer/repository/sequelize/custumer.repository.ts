@@ -25,7 +25,7 @@ export default class CustumerRepository implements CustumerRepositoryInterface {
             {
                 id: entity.id,
                 name: entity.name,
-                street: entity.address.state,
+                street: entity.address.street,
                 zipcode: entity.address.zip_code,
                 city: entity.address.city,
                 country: entity.address.country,
@@ -45,7 +45,6 @@ export default class CustumerRepository implements CustumerRepositoryInterface {
 
         let costumerModel;
         try{
-
             costumerModel =  await CustumerModel.findOne({ where: { id: id }, rejectOnEmpty: true });
         } catch(error) {
             throw new Error("Custumer not found");
@@ -63,7 +62,7 @@ export default class CustumerRepository implements CustumerRepositoryInterface {
     async findAll(): Promise<Custumer[]> {
         const custumerModels = await CustumerModel.findAll();
         return custumerModels.map((custumerModel) => {
-            let custumer = new Custumer(custumerModel.id, custumerModel.name, new Address(custumerModel.state, custumerModel.city, custumerModel.state, custumerModel.zipcode, custumerModel.country))
+            let custumer = new Custumer(custumerModel.id, custumerModel.name, new Address(custumerModel.street, custumerModel.city, custumerModel.state, custumerModel.zipcode, custumerModel.country))
             custumer.addRewardPoints(custumerModel.rewardPoints)
             if (custumerModel.active){
                 custumer.activate();
